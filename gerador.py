@@ -14,40 +14,34 @@ def check_file_exists(file_path):
         return False
     return True
 
-# Carregar a imagem de fundo
-imagem_fundo_path = os.path.join(resource_path, "Slide1.PNG")
-if not check_file_exists(imagem_fundo_path):
-    exit(1)
-imagem_fundo = Image.open(imagem_fundo_path)
+def gerar_certificado(aluno, ls_stars, rw_stars, sp_stars, output_dir):
+    # Carregar a imagem de fundo
+    imagem_fundo_path = os.path.join(resource_path, "Slide1.PNG")
+    if not check_file_exists(imagem_fundo_path):
+        return None
+    imagem_fundo = Image.open(imagem_fundo_path)
 
-# Preparar para desenhar na imagem
-draw = ImageDraw.Draw(imagem_fundo)
+    # Preparar para desenhar na imagem
+    draw = ImageDraw.Draw(imagem_fundo)
 
-# Definir a fonte e tamanho do texto
-fonte_path = os.path.join(resource_path, "dTBommerSans_Rg.otf")
-if not check_file_exists(fonte_path):
-    exit(1)
-fonte = ImageFont.truetype(fonte_path, 42)
+    # Definir a fonte e tamanho do texto
+    fonte_path = os.path.join(resource_path, "dTBommerSans_Rg.otf")
+    if not check_file_exists(fonte_path):
+        return None
+    fonte = ImageFont.truetype(fonte_path, 42)
 
-# Adicionar texto
-texto = "Matheus Leão Rangel"
-cor_do_texto = "black" # A cor pode ser uma tupla (R, G, B) também
-posicao_do_texto = (97, 180) # Ajuste conforme necessário
-draw.text(posicao_do_texto, texto, fill=cor_do_texto, font=fonte)
+    # Adicionar texto
+    texto = aluno
+    cor_do_texto = "black" # A cor pode ser uma tupla (R, G, B) também
+    posicao_do_texto = (97, 180) # Ajuste conforme necessário
+    draw.text(posicao_do_texto, texto, fill=cor_do_texto, font=fonte)
 
-# Nota de um aluno para usar como exemplo
-ls_stars = 2
-rw_stars = 2
-sp_stars = 2
-
-# Adicionar uma imagem (exemplo: uma estrela)
-condicao_para_adicionar_estrela = True # Defina sua condição aqui
-if condicao_para_adicionar_estrela:
+    # Adicionar uma imagem (exemplo: uma estrela)
     estrela_cheia_path = os.path.join(resource_path, "Estrela.png")
     estrela_vazia_path = os.path.join(resource_path, "estrela_eb.png")
     
     if not check_file_exists(estrela_cheia_path) or not check_file_exists(estrela_vazia_path):
-        exit(1)
+        return None
         
     estrela_cheia = Image.open(estrela_cheia_path)
     estrela_vazia = Image.open(estrela_vazia_path)
@@ -67,31 +61,32 @@ if condicao_para_adicionar_estrela:
         imagem_fundo.paste(rw_estrela, (pos_estrela, rw_stars_y), rw_estrela)
         imagem_fundo.paste(sp_estrela, (pos_estrela, sp_stars_y), sp_estrela)
 
-# Salvar a imagem resultante como PNG temporário
-certificado_path = os.path.join(resource_path, "certificado_temp.png")
-imagem_fundo.save(certificado_path)
+    # Salvar a imagem resultante como PNG temporário
+    certificado_path = os.path.join(output_dir, f"certificado_temp_{aluno}.png")
+    imagem_fundo.save(certificado_path)
 
-# Carregar a segunda página
-slide2_path = os.path.join(resource_path, "Slide2.PNG")
-if not check_file_exists(slide2_path):
-    exit(1)
-slide2 = Image.open(slide2_path)
+    # Carregar a segunda página
+    slide2_path = os.path.join(resource_path, "Slide2.PNG")
+    if not check_file_exists(slide2_path):
+        return None
+    slide2 = Image.open(slide2_path)
 
-# Criar um PDF com as duas páginas em formato paisagem (A4)
-pdf_filename = f"Certificado {texto}.pdf"
-c = canvas.Canvas(pdf_filename, pagesize=landscape(A4))
+    # Criar um PDF com as duas páginas em formato paisagem (A4)
+    pdf_filename = os.path.join(output_dir, f"Certificado_{aluno}.pdf")
+    c = canvas.Canvas(pdf_filename, pagesize=landscape(A4))
 
-# Adicionar a primeira página
-c.drawImage(ImageReader(certificado_path), 0, 0, width=landscape(A4)[0], height=landscape(A4)[1])
+    # Adicionar a primeira página
+    c.drawImage(ImageReader(certificado_path), 0, 0, width=landscape(A4)[0], height=landscape(A4)[1])
 
-# Adicionar a segunda página
-c.showPage()
-c.drawImage(ImageReader(slide2_path), 0, 0, width=landscape(A4)[0], height=landscape(A4)[1])
+    # Adicionar a segunda página
+    c.showPage()
+    c.drawImage(ImageReader(slide2_path), 0, 0, width=landscape(A4)[0], height=landscape(A4)[1])
 
-# Salvar o PDF
-c.save()
+    # Salvar o PDF
+    c.save()
 
-# Remover a imagem temporária
-os.remove(certificado_path)
+    # Remover a imagem temporária
+    os.remove(certificado_path)
 
-print(f"Certificado gerado com sucesso: {pdf_filename}")
+    print(f"Certificado gerado com sucesso: {pdf_filename}")
+    return pdf_filename
