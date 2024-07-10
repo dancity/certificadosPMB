@@ -14,7 +14,7 @@ def check_file_exists(file_path):
         return False
     return True
 
-def gerar_certificado(aluno, ls_stars, rw_stars, sp_stars, output_dir):
+def gerar_certificado(aluno, ls_stars, rw_stars, sp_stars, output_dir, mock_level):
     # Carregar a imagem de fundo
     imagem_fundo_path = os.path.join(resource_path, "Slide1.PNG")
     if not check_file_exists(imagem_fundo_path):
@@ -88,5 +88,4 @@ def gerar_certificado(aluno, ls_stars, rw_stars, sp_stars, output_dir):
     # Remover a imagem temporária
     os.remove(certificado_path)
 
-    print(f"Certificado gerado com sucesso: {pdf_filename}")
     return pdf_filename
