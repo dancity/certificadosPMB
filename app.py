@@ -156,7 +156,6 @@ if st.session_state.valid_file and st.session_state.generate_certificates:
         total_alunos = len(st.session_state.df_scores)
         for index, row in st.session_state.df_scores.iterrows():
             loader_bar.progress((index + 1) / total_alunos, text=f"Gerando o certificado do aluno(a) {row['Aluno']}")
-            st.write('Entrei aqui sim')
             pdf_file = gerar_certificado(
                 aluno=row['Aluno'],
                 ls_stars=row['Troféus Listening'],
