@@ -120,28 +120,32 @@ def main():
     st.text('Current version 1.0')
 
     uploaded_file = st.file_uploader("Faça upload do Dashboard Mocktest Preenchido", type="xlsx")
+    action_button = st.empty()
 
     if 'zip_path' not in st.session_state:
         st.session_state.zip_path = ""
 
     if uploaded_file is not None:
         valid, result = verify_pmb_dashboard(uploaded_file)
-        st.write(result)
+        st.toast(result)
 
         if valid:
             df_scores, mock_level = calculate_scores(uploaded_file)
 
-            st.button('Gerar certificados', on_click=generate_certificates(df_scores, mock_level))
+            generate_btn = action_button.button('Gerar certificados', disabled=False, key='1')
 
-            with open(st.session_state.zip_path, "rb") as f:
-                bytes = f.read()
-                st.download_button(
-                    label="Baixar certificados",
-                    data=bytes,
-                    file_name="certificados.zip",
-                    mime="application/zip",
-                    type='primary'
-                )
+            if generate_btn:
+                generate_btn = action_button.button('Gerar certificados', disabled=True, key='2')
+                generate_certificates(df_scores, mock_level)
+                with open(st.session_state.zip_path, "rb") as f:
+                    bytes = f.read()
+                    download_button = action_button.download_button(
+                        label="Baixar certificados",
+                        data=bytes,
+                        file_name="certificados.zip",
+                        mime="application/zip",
+                        type='primary'
+                    )
 
 if __name__ == "__main__":
     main()
