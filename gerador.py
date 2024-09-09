@@ -16,7 +16,18 @@ def check_file_exists(file_path):
 
 def gerar_certificado(aluno, ls_stars, rw_stars, sp_stars, output_dir, mock_level):
     # Carregar a imagem de fundo
-    imagem_fundo_path = os.path.join(resource_path, "Slide1.PNG")
+    if mock_level == "Starters":
+        certificate_front = "Starters_P1.PNG"
+        certificate_back = "Starters_P2.PNG"
+
+    if mock_level == "Movers":
+        certificate_front = "Movers_P1.PNG"
+        certificate_back = "Movers_P2.PNG"
+
+    if mock_level == "Flyers":
+        certificate_front = "Flyers_P1.PNG"
+        certificate_back = "Flyers_P2.PNG"
+    imagem_fundo_path = os.path.join(resource_path, certificate_front)
     if not check_file_exists(imagem_fundo_path):
         return None
     imagem_fundo = Image.open(imagem_fundo_path)
@@ -66,7 +77,7 @@ def gerar_certificado(aluno, ls_stars, rw_stars, sp_stars, output_dir, mock_leve
     imagem_fundo.save(certificado_path)
 
     # Carregar a segunda página
-    slide2_path = os.path.join(resource_path, "Slide2.PNG")
+    slide2_path = os.path.join(resource_path, certificate_back)
     if not check_file_exists(slide2_path):
         return None
     slide2 = Image.open(slide2_path)

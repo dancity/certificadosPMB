@@ -50,9 +50,9 @@ def calculate_scores(user_file):
 
     # Nota: Os dados do Movers e Flyers precisam ser alterados!
     max_scores = {
-        "Starters": {"Listening": 20, "Reading & Writing": 30, "Speaking": 10},
-        "Movers": {"Listening": 25, "Reading & Writing": 35, "Speaking": 15},
-        "Flyers": {"Listening": 30, "Reading & Writing": 40, "Speaking": 20}
+        "Starters": {"Listening": 20, "Reading & Writing": 25, "Speaking": 15},
+        "Movers": {"Listening": 25, "Reading & Writing": 39, "Speaking": 15},
+        "Flyers": {"Listening": 25, "Reading & Writing": 48, "Speaking": 15}
     }
 
     # Cria um dataframe com os dados de cada aluno e seus troféus
