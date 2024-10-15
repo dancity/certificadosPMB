@@ -83,7 +83,7 @@ def gerar_certificado(aluno, ls_stars, rw_stars, sp_stars, output_dir, mock_leve
     slide2 = Image.open(slide2_path)
 
     # Criar um PDF com as duas páginas em formato paisagem (A4)
-    pdf_filename = os.path.join(output_dir, f"Certificado_{aluno}.pdf")
+    pdf_filename = os.path.join(output_dir, f"Relatório_{aluno}.pdf")
     c = canvas.Canvas(pdf_filename, pagesize=landscape(A4))
 
     # Adicionar a primeira página

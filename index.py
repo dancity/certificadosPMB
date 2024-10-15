@@ -91,9 +91,9 @@ def generate_certificates(df_scores, mock_level):
     tempdir = tempfile.mkdtemp()
     pdf_files = []
     total_alunos = len(df_scores)
-    loader_bar = st.progress(0, text="Gerando certificados")
+    loader_bar = st.progress(0, text="Gerando relatórios")
     for index, row in df_scores.iterrows():
-        loader_bar.progress((index + 1) / total_alunos, text=f"Gerando o certificado do aluno(a) {row['Aluno']}")
+        loader_bar.progress((index + 1) / total_alunos, text=f"Gerando o relatório do aluno(a) {row['Aluno']}")
         pdf_file = gerar_certificado(
             aluno=row['Aluno'],
             ls_stars=row['Troféus Listening'],
@@ -107,7 +107,7 @@ def generate_certificates(df_scores, mock_level):
 
     loader_bar.empty()
 
-    zip_path = os.path.join(tempdir, "certificados.zip")
+    zip_path = os.path.join(tempdir, "relatórios.zip")
     with zipfile.ZipFile(zip_path, 'w') as zipf:
         for file in pdf_files:
             zipf.write(file, os.path.basename(file))
@@ -132,17 +132,17 @@ def main():
         if valid:
             df_scores, mock_level = calculate_scores(uploaded_file)
 
-            generate_btn = action_button.button('Gerar certificados', disabled=False, key='1')
+            generate_btn = action_button.button('Gerar relatórios', disabled=False, key='1')
 
             if generate_btn:
-                generate_btn = action_button.button('Gerar certificados', disabled=True, key='2')
+                generate_btn = action_button.button('Gerar relatórios', disabled=True, key='2')
                 generate_certificates(df_scores, mock_level)
                 with open(st.session_state.zip_path, "rb") as f:
                     bytes = f.read()
                     download_button = action_button.download_button(
-                        label="Baixar certificados",
+                        label="Baixar relatórios",
                         data=bytes,
-                        file_name="certificados.zip",
+                        file_name="relatórios.zip",
                         mime="application/zip",
                         type='primary'
                     )
