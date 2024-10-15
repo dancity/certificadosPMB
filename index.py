@@ -117,7 +117,7 @@ def generate_certificates(df_scores, mock_level):
 def main():
     #Função principal para execução do Streamlit.
     st.title('PMB Statement of Results Generator')
-    st.text('Current version 1.0')
+    st.text('Current version 1.1.8')
 
     uploaded_file = st.file_uploader("Faça upload do Dashboard Mocktest Preenchido", type="xlsx")
     action_button = st.empty()
