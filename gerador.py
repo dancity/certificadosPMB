@@ -39,12 +39,12 @@ def gerar_certificado(aluno, ls_stars, rw_stars, sp_stars, output_dir, mock_leve
     fonte_path = os.path.join(resource_path, "dTBommerSans_Rg.otf")
     if not check_file_exists(fonte_path):
         return None
-    fonte = ImageFont.truetype(fonte_path, 42)
+    fonte = ImageFont.truetype(fonte_path, 24)
 
     # Adicionar texto
     texto = aluno
     cor_do_texto = "black" # A cor pode ser uma tupla (R, G, B) também
-    posicao_do_texto = (97, 180) # Ajuste conforme necessário
+    posicao_do_texto = (97, 275) # Ajuste conforme necessário
     draw.text(posicao_do_texto, texto, fill=cor_do_texto, font=fonte)
 
     # Adicionar uma imagem (exemplo: uma estrela)
@@ -58,10 +58,10 @@ def gerar_certificado(aluno, ls_stars, rw_stars, sp_stars, output_dir, mock_leve
     estrela_vazia = Image.open(estrela_vazia_path)
     
     # Posições x e y iniciais
-    pos_x = 167
-    ls_stars_y = 348
-    rw_stars_y = 485
-    sp_stars_y = 624
+    pos_x = 121
+    ls_stars_y = 374
+    rw_stars_y = 491
+    sp_stars_y = 610
     espaco = 85 # É o espaço em pixels de uma estrela para outra
     for i in range(5):
         ls_estrela = estrela_vazia if ls_stars - i <= 0 else estrela_cheia
