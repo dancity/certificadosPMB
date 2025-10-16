@@ -137,6 +137,7 @@ def main():
             if generate_btn:
                 generate_btn = action_button.button('Gerar relatórios', disabled=True, key='2')
                 generate_certificates(df_scores, mock_level)
+                st.text("Atenção: Depois de clicar em baixar, aguarde alguns segundos até o download iniciar.")
                 with open(st.session_state.zip_path, "rb") as f:
                     bytes = f.read()
                     download_button = action_button.download_button(
